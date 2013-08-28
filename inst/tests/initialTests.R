@@ -1,0 +1,10 @@
+test_that("the function isit works on binary operators", {
+  expect_that(isit("+", list(3,4), 7), equals(TRUE))
+  expect_that(isit("-", list(3,4), -1), equals(TRUE))
+  x <- cbind(x1 = 3, x2 = c(4:1, 2:5))
+  expect_that(isit(apply, list(x,2,mean), c(3,3)), equals(TRUE))
+  expect_that(isit("-", list(4,3), -1), equals(FALSE))
+  expect_that(whatgives(list(3,4), 7), equals(c("3 + 4"  ,   "sum(3, 4)")))
+  minlen <- data.frame(output = c("min(c(3, 4, 5))", "length(c(3, 4, 5))"))
+  expect_that(locatr(list(c(3,4,5)), 3), equals(minlen))
+})

@@ -1,0 +1,4 @@
+export(isit)
+export(locatr)
+export(whatgives)
+importFrom(gtools,permutations)

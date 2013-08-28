@@ -1,0 +1,15 @@
+Package: locatr
+Title: Tools for finding that function at the tip of your tongue, or
+    discovering new functions that do what you want.
+Description: Allows you to specify arguments and returns and find functions
+    that do what you want.
+Version: 0.1
+Author: Amelia McNamara, Ted Kaehler
+Maintainer: Amelia McNamara <amelia.mcnamara@stat.ucla.edu>
+License: GPL
+LazyData: true
+Collate:
+    'locatr-package.r'
+    'isit.R'
+    'locatr.R'
+    'whatgives.R'
