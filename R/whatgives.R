@@ -10,7 +10,7 @@
 
 whatgives <- function(data, answer, anstr=NULL){
   fnList <- ls("package:base")
-  #badfunctions <- dget("badfunctions.robj")
+ # badfunctions <- dget("badfunctions.robj")
   badfunctions <- c("cat", "kronecker", "l10n_info", "La.svd", "lockEnvironment", 
                     "lockBinding", "message", "packageStartupMessage", "print", "print.AsIs", 
                     "print.by", "print.condition", "print.connection", "print.data.frame", 
@@ -66,10 +66,11 @@ whatgives <- function(data, answer, anstr=NULL){
                     "as.list.environment", "environmentIsLocked", "unlockBinding", 
                     "bindingIsLocked", "makeActiveBinding", "bindingIsActive", "dget", 
                     "list2env", "rawConnectionValue", "search", "searchpaths", "seek.connection", 
-                    "standardGeneric", "taskCallbackManager", "attach", "detach"
+                    "standardGeneric", "taskCallbackManager", "attach", "detach", "serialize", "unserialize", 
+                    "lazyLoadDBexec"    
   )
   listNoSideEffects <- fnList[fnList %in% badfunctions==FALSE]
-  listNoSideEffects <- listNoSideEffects[-c(2,3,8,9, 13:25, 27:31,33:35,37:41,45,47, 49:50, 60:61,71:72, 76:77, 79)]
+  listNoSideEffects <- listNoSideEffects[-c(2:3,8:9, 13:26, 28:32,34:36,38:42,45,47, 49, 51:52, 62:63, 73:74, 78:79, 81)]
   binaryOps <- listNoSideEffects[1:38]
   output <- NULL
   i <- 1

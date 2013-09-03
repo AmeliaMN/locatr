@@ -53,5 +53,5 @@ c("cat", "kronecker", "l10n_info", "La.svd", "lockEnvironment",
 "as.list.environment", "environmentIsLocked", "unlockBinding", 
 "bindingIsLocked", "makeActiveBinding", "bindingIsActive", "dget", 
 "list2env", "rawConnectionValue", "search", "searchpaths", "seek.connection", 
-"standardGeneric", "taskCallbackManager", "attach", "detatch"
-)
+"standardGeneric", "taskCallbackManager", "attach", "detach", 
+"lazyLoadDBexec", "serialize", "unserialize")
