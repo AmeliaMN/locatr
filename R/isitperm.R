@@ -1,4 +1,10 @@
-
+#' The function that asks you before it tests every single function
+#' 
+#' This functions will probably not be in the final version because it's quite time consuming, 
+#' but can be useful for debugging. 
+#' @param data the data (in a list) that you want to test
+#' @param answer the answer you expect
+#' @export
 
 isitperm <- function(data, answer){
   require(gtools)

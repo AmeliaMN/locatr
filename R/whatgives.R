@@ -10,12 +10,12 @@
 
 whatgives <- function(data, answer, anstr=NULL){
   fnList <- ls("package:base")
-  badfunctions <- dget("badfunctions.robj")
+ # badfunctions <- dget("badfunctions.robj")
   if(length(which(duplicated(badfunctions)))>0){
     stop("duplicated badfunctions")
   }
   listNoSideEffects <- fnList[fnList %in% badfunctions==FALSE]
-  if(length(listNoSideEffects)==length(fnList)-length(badfunctions)==FALSE){
+  if((length(listNoSideEffects)==length(fnList)-length(badfunctions))==FALSE){
     stop("you might not be removing something you want to be")
   }
   binaryOps <- listNoSideEffects[1:38]
@@ -31,7 +31,6 @@ whatgives <- function(data, answer, anstr=NULL){
       i <- i + 1
     }
   }
-  print(isit(sum, list(4,3), 7))
 #   
 #   condition_call <- substitute(answer)
 #   env <- list2env(data, parent=parent.frame())
