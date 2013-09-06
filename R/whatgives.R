@@ -18,7 +18,9 @@ whatgives <- function(data, answer, anstr=NULL){
   if((length(listNoSideEffects)==length(fnList)-length(badfunctions))==FALSE){
     stop("you might not be removing something you want to be")
   }
-  binaryOps <- listNoSideEffects[1:38]
+  binaryOps <- c("-",":","::",":::","!","!=" , "*","/","&","&&","%*%","%/%","%%","%in%" ,"%o%", "%x%",
+                 "^","+","<","==",">",">=","|","||","~","$")
+  parens <- c("(","[","[[", "{")
   output <- NULL
   i <- 1
   if(missing(anstr)){
@@ -26,7 +28,13 @@ whatgives <- function(data, answer, anstr=NULL){
   }
   for (procName in listNoSideEffects){
     if(isit(procName, data, answer)){
-      flagb <- procName %in% binaryOps
+      if(procName %in% binaryOps){
+        flagb <- "binary"
+      } else if(procName %in% parens){
+        flagb <- "paren"
+      } else {
+        flagb <- "regular"
+      }
       output[i] <- prettyfunctionprint(procName, data, anstr, flagb)
       i <- i + 1
     }
@@ -49,11 +57,13 @@ whatgives <- function(data, answer, anstr=NULL){
 
 
 prettyfunctionprint <- function(procName, data, anstr=NULL, flagb){
-if(flagb){
+if(flagb=="binary"){
   output <- paste(data[[1]], procName, data[[2]])
-}
-# Otherwise, use the parentheses format
-else{
+} else if(flagb=="paren"){
+  parens <- c("(", ")", "[", "]","[[", "]]", "{", "}")
+  otherside <- parens[which(parens == procName)+1]
+  output <- paste0(anstr[1], procName, anstr[2], otherside)
+} else{
   dataU <- paste0(anstr, collapse=", ")
   output <- paste0(procName, "(", dataU, ")")
 }
