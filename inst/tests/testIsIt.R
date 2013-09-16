@@ -1,3 +1,4 @@
+ test_that("all the isit functions work as expected", {
   expect_that(isit("+", list(3,4), 7), equals(TRUE))
   expect_that(isit("-", list(3,4), -1), equals(TRUE))
   expect_that(isit("*", list(3,4), 12), equals(TRUE))
@@ -29,3 +30,4 @@
   expect_that(isit("length", list(c(3,4,5)), 3), equals(TRUE))
   expect_that(isit("is.na", list(NA), TRUE), equals(TRUE))
   expect_that(isit("sum", list(c(3,4,5)), 12), equals(TRUE))
+})

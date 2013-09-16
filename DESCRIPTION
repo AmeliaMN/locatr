@@ -7,7 +7,7 @@ Version: 0.1
 Author: Amelia McNamara, Ted Kaehler
 Maintainer: Amelia McNamara <amelia.mcnamara@stat.ucla.edu>
 License: GPL
-LazyData: true
+LazyData: no
 Collate:
     'locatr-package.r'
     'isit.R'

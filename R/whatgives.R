@@ -8,20 +8,14 @@
 #' @return A list of potential functions for the specified data
 #' @export
 
-whatgives <- function(data, answer, anstr=NULL){
-  fnList <- ls("package:base")
- # badfunctions <- dget("badfunctions.robj")
-  if(length(which(duplicated(badfunctions)))>0){
-    stop("duplicated badfunctions")
-  }
-  listNoSideEffects <- fnList[fnList %in% badfunctions==FALSE]
-  if((length(listNoSideEffects)==length(fnList)-length(badfunctions))==FALSE){
-    stop("you might not be removing something you want to be")
-  }
+whatgives <- function(data, answer, anstr=NULL, names=FALSE){
+  listNoSideEffects <- goodfunctions
+  
   binaryOps <- c("-",":","::",":::","!","!=" , "*","/","&","&&","%*%","%/%","%%","%in%" ,"%o%", "%x%",
                  "^","+","<","==",">",">=","|","||","~","$")
   parens <- c("(","[","[[", "{")
   output <- NULL
+  procNames <- NULL
   i <- 1
   if(missing(anstr)){
     anstr <- substitute(data)[-1]
@@ -35,7 +29,10 @@ whatgives <- function(data, answer, anstr=NULL){
       } else {
         flagb <- "regular"
       }
-      output[i] <- prettyfunctionprint(procName, data, anstr, flagb)
+      output[i] <- prettyfunctionprint(procName, anstr, flagb)
+      if(names){
+        procNames[i] <- procName
+      }
       i <- i + 1
     }
   }
@@ -46,26 +43,33 @@ whatgives <- function(data, answer, anstr=NULL){
   
   if(length(output)==0){
     return("sorry, no functions found")
-  }
-  else{
+  }else if (names==FALSE){
     return(output)
+  }else {
+    return(data.frame(output, procNames))
   }
 }
 
 
 
+#' This helper function creates nice output strings for locatr functions
+#' 
+#' @param procName the name of a working function to return
+#' @param anstr the data as a string
+#' @param flagb a character string containing "binary", "paren" or "normal"
+#' 
+#' @return a nicely formatted string
 
-
-prettyfunctionprint <- function(procName, data, anstr=NULL, flagb){
-if(flagb=="binary"){
-  output <- paste(data[[1]], procName, data[[2]])
-} else if(flagb=="paren"){
-  parens <- c("(", ")", "[", "]","[[", "]]", "{", "}")
-  otherside <- parens[which(parens == procName)+1]
-  output <- paste0(anstr[1], procName, anstr[2], otherside)
-} else{
-  dataU <- paste0(anstr, collapse=", ")
-  output <- paste0(procName, "(", dataU, ")")
-}
-return(output)
+prettyfunctionprint <- function(procName, anstr, flagb){
+  if(flagb=="binary"){
+    output <- paste0(anstr[1], procName, anstr[2])
+  } else if(flagb=="paren"){
+    parens <- c("(", ")", "[", "]","[[", "]]", "{", "}")
+    otherside <- parens[which(parens == procName)+1]
+    output <- paste0(anstr[1], procName, paste0(anstr[-1], collapse=", "), otherside)
+  } else{
+    dataU <- paste0(anstr, collapse=", ")
+    output <- paste0(procName, "(", dataU, ")")
+  }
+  return(output)
 }
