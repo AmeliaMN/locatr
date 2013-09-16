@@ -66,7 +66,7 @@ prettyfunctionprint <- function(procName, anstr, flagb){
   } else if(flagb=="paren"){
     parens <- c("(", ")", "[", "]","[[", "]]", "{", "}")
     otherside <- parens[which(parens == procName)+1]
-    output <- paste0(anstr[1], procName, paste0(anstr[-1], collapse=", "), otherside)
+    output <- paste0(anstr[1], procName, paste0(anstr[-1], collapse=","), otherside)
   } else{
     dataU <- paste0(anstr, collapse=", ")
     output <- paste0(procName, "(", dataU, ")")
