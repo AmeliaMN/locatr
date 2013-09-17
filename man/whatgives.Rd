@@ -2,7 +2,7 @@
 \alias{whatgives}
 \title{Find the function that gives the result you want (for a specific ordering of data)}
 \usage{
-  whatgives(data, answer, anstr = NULL)
+  whatgives(data, answer, anstr = NULL, names = FALSE)
 }
 \arguments{
   \item{data}{a list containing the data, formatted as you

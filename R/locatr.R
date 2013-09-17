@@ -23,5 +23,11 @@ for (i in 1:dim(orderings)[1]){
     output <- c(output, methodList)
   }
 }
-return(data.frame(output))
+  if(all(output == "sorry, no functions found")){
+    return("sorry, no functions found")
+  }
+  else{
+    return(data.frame(output))
+  }
+
 }
