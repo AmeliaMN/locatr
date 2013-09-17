@@ -11,6 +11,8 @@
 #' @importFrom gtools permutations
 
 locatr <- function(data, answer){
+  ptm <- proc.time()
+  stopifnot((proc.time() - ptm)[2]<1)
 require(gtools)
 output <- NULL
 orderings <- permutations(length(data), length(data), 1:length(data))

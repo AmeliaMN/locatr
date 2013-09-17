@@ -15,6 +15,8 @@ isit <- function(procName, data, answer){
   if(is.list(data)==FALSE){
     stop("please provide a list containing your data")
   }
+  ptm <- proc.time()
+  stopifnot((proc.time() - ptm)[2]<1)
   trialAnswer <- tryCatch(
     do.call(procName, data)
     , error = function(e) as.character(e)

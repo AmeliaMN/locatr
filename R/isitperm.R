@@ -8,17 +8,19 @@
 
 isitperm <- function(data, answer){
   require(gtools)
-  fnList <- ls("package:base")
- # badfunctions <- dget("badfunctions.robj")
-  listNoSideEffects <- fnList[fnList %in% badfunctions==FALSE]
+  listNoSideEffects <- goodfunctions
   orderings <- permutations(length(data), length(data), 1:length(data))
   
   for (i in 1:dim(orderings)[1]){
     for (procName in listNoSideEffects){
       readline(prompt = paste0("hit Enter to try ", deparse(substitute(procName)), ":")) 
-        print(data[orderings[i,]])
+      timeOut <- function (expr, ...)  {
+        on.exit(setTimeLimit())
+        setTimeLimit(...)
+        expr
+      }
         trialAnswer <- tryCatch(
-          do.call(procName, data[orderings[i,]])
+          timeOut(do.call(procName, data[orderings[i,]]), elapsed=1)
           , error = function(e) as.character(e)
         )
       }
