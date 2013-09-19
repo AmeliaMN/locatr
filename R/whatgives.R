@@ -11,31 +11,38 @@
 whatgives <- function(data, answer, anstr=NULL, names=FALSE){
   listNoSideEffects <- goodfunctions
   
-  binaryOps <- c("-",":","::",":::","!","!=" , "*","/","&","&&","%*%","%/%","%%","%in%" ,"%o%", "%x%",
-                 "^","+","<","==",">",">=","|","||","~","$")
-  parens <- c("(","[","[[", "{")
+
   output <- NULL
   procNames <- NULL
   i <- 1
   if(missing(anstr)){
     anstr <- substitute(data)[-1]
   }
+  
   for (procName in listNoSideEffects){
     if(isit(procName, data, answer)){
-      if(procName %in% binaryOps){
-        flagb <- "binary"
-      } else if(procName %in% parens){
-        flagb <- "paren"
-      } else {
-        flagb <- "regular"
+      output[i] <- prettyfunctionprint(procName, anstr)
+#       if(names){
+#         procNames[i] <- procName
+#       } 
+      i <- i + 1 
+    } else {
+      facdata <- vector("list", 0)
+      for (j in 1:length(data)){
+        facdata <- c(facdata, factor(data[[j]][1]))
       }
-      output[i] <- prettyfunctionprint(procName, anstr, flagb)
-      if(names){
-        procNames[i] <- procName
+      if (isit(procName, facdata, answer)) {
+        output[i] <- prettyfunctionprint(procName, anstr)
+        i <- i + 1 
+      } else if (isit(procName, data, factor(answer))){
+        output[i] <- prettyfunctionprint(procName, anstr)
+        i <- i + 1 
+      }else if (isit(procName, facdata, factor(answer))){
+        output[i] <- prettyfunctionprint(procName, anstr)
+        i <- i + 1 
       }
-      i <- i + 1
     }
-  }
+  }     
 #   
 #   condition_call <- substitute(answer)
 #   env <- list2env(data, parent=parent.frame())
@@ -61,13 +68,16 @@ whatgives <- function(data, answer, anstr=NULL, names=FALSE){
 #' @return a nicely formatted string
 
 prettyfunctionprint <- function(procName, anstr, flagb){
-  if(flagb=="binary"){
+  binaryOps <- c("-",":","::",":::","!","!=" , "*","/","&","&&","%*%","%/%","%%","%in%" ,"%o%", "%x%",
+                 "^","+","<","==",">",">=","|","||","~","$")
+  parens <- c("(","[","[[", "{")
+  if(procName %in% binaryOps){
     output <- paste0(anstr[1], procName, anstr[2])
-  } else if(flagb=="paren"){
+  } else if(procName %in% parens){
     parens <- c("(", ")", "[", "]","[[", "]]", "{", "}")
     otherside <- parens[which(parens == procName)+1]
     output <- paste0(anstr[1], procName, paste0(anstr[-1], collapse=","), otherside)
-  } else{
+  } else {
     dataU <- paste0(anstr, collapse=", ")
     output <- paste0(procName, "(", dataU, ")")
   }
